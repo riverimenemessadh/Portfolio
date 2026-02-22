@@ -1079,9 +1079,9 @@ function Contact({ t }) {
               <div style={{ width: 38, height: 38, borderRadius: 10, background: t.tagBg, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
                 <Icon name={c.icon} size={16} color={t.accent} />
               </div>
-              <div style={{ minWidth: 0, flex: 1, overflow: "hidden" }}>
+              <div style={{ minWidth: 0, flex: 1 }}>
                 <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 9, letterSpacing: "0.12em", textTransform: "uppercase", color: t.accent, marginBottom: 2 }}>{c.label}</div>
-                <div style={{ fontFamily: "'Syne', sans-serif", fontWeight: 600, fontSize: 13, color: t.ink, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", maxWidth: "100%" }}>{c.value}</div>
+                <div style={{ fontFamily: "'Syne', sans-serif", fontWeight: 600, fontSize: 13, color: t.ink, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{c.value}</div>
               </div>
             </motion.a>
           ))}
@@ -1342,12 +1342,10 @@ export default function App() {
           grid-template-columns: 1fr;
           gap: 14px;
           margin-bottom: 80px;
-          width: 100%;
-          box-sizing: border-box;
         }
-        @media (min-width: 560px) {
+        @media (min-width: 400px) {
           .contact-grid {
-            grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(min(100%, 258px), 1fr));
           }
         }
 
@@ -1362,17 +1360,10 @@ export default function App() {
 
         /* ── SECTION PADDING: reduce on mobile ── */
         .section-padded {
-          padding: clamp(72px, 10vw, 120px) clamp(16px, 5vw, 60px);
+          padding: clamp(72px, 10vw, 120px) clamp(20px, 5vw, 60px);
         }
         .section-padded-bottom {
-          padding: clamp(72px, 10vw, 120px) clamp(16px, 5vw, 60px) clamp(48px, 6vw, 80px);
-        }
-        @media (max-width: 380px) {
-          .section-padded,
-          .section-padded-bottom {
-            padding-left: 14px;
-            padding-right: 14px;
-          }
+          padding: clamp(72px, 10vw, 120px) clamp(20px, 5vw, 60px) clamp(48px, 6vw, 80px);
         }
       `}</style>
 
