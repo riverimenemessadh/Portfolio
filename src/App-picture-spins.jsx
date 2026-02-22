@@ -79,7 +79,7 @@ const SOFT_SKILLS = [
   { icon: "Brain", label: "Problem Solver", desc: "Breaks complex challenges into elegant, logical solutions." },
   { icon: "Target", label: "Detail-Oriented", desc: "Every pixel, every function — precision is a habit." },
   { icon: "Users", label: "Collaborative", desc: "Thrives in teams, listens actively, communicates clearly." },
-  { icon: "Zap", label: "Fast Learner", desc: "Adopted an entire tech stack and landed an internship at 18." },
+  { icon: "Zap", label: "Fast Learner", desc: "Adopted an entire tech stack and landed an internship at 20." },
   { icon: "Lightbulb", label: "Creative Thinker", desc: "Doesn't just build what's asked — reimagines what's possible." },
   { icon: "Flame", label: "Self-Motivated", desc: "Fell into coding by accident. Never looked back. Still going." },
 ];
@@ -712,9 +712,9 @@ function Hero({ t }) {
         {/* Stats — full width, below both columns */}
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.85, duration: 0.8 }}
           className="hero-stats">
-          {[["19", "Years Old"], ["15+", "Technologies"], ["1Y 3M", "@ Sonelgaz"], ["6", "Projects"]].map(([val, lbl], i) => (
+          {[["20", "Years Old"], ["15+", "Technologies"], ["1Y 3M", "@ Sonelgaz"], ["6", "Projects"]].map(([val, lbl], i) => (
             <motion.div key={lbl}
-              initial={{ opacity: 0, y: 19 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 2.0 + i * 0.1, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
             >
@@ -738,7 +738,7 @@ function About({ t }) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-100px" });
 
-  // ── Gloss animation (all screen sizes) ──
+  // ── Gloss animation (desktop) ──
   const glossRef = useRef(null);
   const hasGlossedOnce = useRef(false);
 
@@ -758,6 +758,18 @@ function About({ t }) {
     }
   }, [inView]);
 
+  // ── Spin animation (mobile) ──
+  const circleRef = useRef(null);
+
+  const handleTap = () => {
+    const el = circleRef.current;
+    if (!el) return;
+    el.classList.remove("about-photo-spin");
+    void el.offsetWidth;
+    el.classList.add("about-photo-spin");
+    el.addEventListener("animationend", () => el.classList.remove("about-photo-spin"), { once: true });
+  };
+
   return (
     <section id="about" ref={ref} className="section-padded" style={{ maxWidth: 1260, margin: "0 auto" }}>
       <div className="about-grid">
@@ -765,11 +777,12 @@ function About({ t }) {
         <SlideIn direction={-1} delay={0.1}>
           <motion.div
             className="about-photo-wrap"
-            style={{ position: "relative" }}
+            style={{ position: "relative", cursor: "pointer" }}
             onHoverStart={triggerGloss}
-            onTap={triggerGloss}
+            onClick={handleTap}
           >
             <div
+              ref={circleRef}
               className="about-photo-inner"
               style={{ background: `linear-gradient(135deg, ${t.bg2} 0%, ${t.card} 100%)`, overflow: "hidden", border: `1px solid ${t.border}`, position: "relative" }}
             >
@@ -778,7 +791,7 @@ function About({ t }) {
                 <p style={{ fontFamily: "'DM Mono', monospace", fontSize: 10, color: t.inkMuted, letterSpacing: "0.1em", textAlign: "center", padding: "0 20px" }}>[ Replace with your photo ]<br />Recommended: 600×800px</p>
               </div>
               <img src="/river.jpg" alt="Messadh River" style={{ width: "100%", height: "100%", objectFit: "cover", position: "absolute", inset: 0 }} onError={e => e.target.style.display = "none"} />
-              {/* Gloss overlay — all screen sizes */}
+              {/* Gloss overlay — desktop only, hidden on mobile via opacity:0 initial */}
               <div ref={glossRef} className="about-photo-gloss" />
             </div>
             <div className="about-photo-border" style={{ position: "absolute", top: 14, left: 14, right: 0, bottom: -14, border: `1.5px solid ${t.border}`, borderRadius: 6, zIndex: -1, overflow: "hidden" }} />
@@ -798,7 +811,7 @@ function About({ t }) {
           </RevealText>
           <RevealText delay={0.15}>
             <p style={{ fontFamily: "Georgia, serif", fontSize: "clamp(14px,1.4vw,17px)", lineHeight: 1.9, color: t.inkSoft, marginBottom: 18 }}>
-              At 17, I stumbled into software — and never left. What started as an accident became an obsession. Today I'm a <strong style={{ color: t.ink }}>fullstack developer</strong> who moves fluidly between frontend craft, backend architecture, and mobile engineering.
+              At 20, I stumbled into software — and never left. What started as an accident became an obsession. Today I'm a <strong style={{ color: t.ink }}>fullstack developer</strong> who moves fluidly between frontend craft, backend architecture, and mobile engineering.
             </p>
           </RevealText>
           <RevealText delay={0.15}>
@@ -1251,7 +1264,20 @@ export default function App() {
           }
         }
 
-        /* ── GLOSS SWEEP (both mobile + desktop) ── */
+        /* ── HIDE GLOSS ON MOBILE ── */
+        .about-photo-gloss {
+          display: none;
+        }
+        @media (min-width: 640px) {
+          .about-photo-gloss {
+            display: block;
+          }
+          .about-photo-wrap {
+            cursor: default;
+          }
+        }
+
+        /* ── GLOSS SWEEP KEYFRAME (desktop) ── */
         @keyframes glossSweep {
           0%   { transform: translateX(-150%) skewX(-20deg); opacity: 0; }
           15%  { opacity: 1; }
@@ -1273,6 +1299,15 @@ export default function App() {
         }
         .about-photo-gloss.gloss-run {
           animation: glossSweep 0.9s ease-in-out forwards;
+        }
+
+        /* ── SPIN ANIMATION (mobile counter-clockwise) ── */
+        @keyframes spinCCW {
+          from { transform: rotate(0deg); }
+          to   { transform: rotate(-360deg); }
+        }
+        .about-photo-spin {
+          animation: spinCCW 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
         }
 
         /* ── ABOUT INFO PILLS: wrap tightly on mobile ── */
