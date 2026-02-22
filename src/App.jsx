@@ -85,13 +85,14 @@ const SOFT_SKILLS = [
 ];
 
 const PROJECTS = [
-  { id: 1, title: "Project One", desc: "A brief description of what this project does and the problem it solves.", tags: ["React", "Laravel", "MySQL"], link: "#", github: "#" },
-  { id: 2, title: "Project Two", desc: "A brief description of what this project does and the problem it solves.", tags: ["Flutter", "Dart", "REST API"], link: "#", github: "#" },
+  { id: 1, title: "Reservel", desc: "Réservel is a full-stack reservation management platform built for academic institutions. It features secure authentication and role-based authorization, a booking system with conflict detection, equipment maintenance reporting, an admin notification system, and multi-language support with dynamic Arabic/French RTL switching. for login : admin: admin@institute.dz prof: lydia.idir@institute.dz pass: password", tags: ["Laravel", "Blade", "MySQL", "Bootstrap 5"], link: "https://reservel-production.up.railway.app", github: "https://github.com/riverimenemessadh/Reservel", image: "/public/reservel.png"},
+  /*{ id: 2, title: "Project Two", desc: "A brief description of what this project does and the problem it solves.", tags: ["Flutter", "Dart", "REST API"], link: "#", github: "#" },
   { id: 3, title: "Project Three", desc: "A brief description of what this project does and the problem it solves. ", tags: ["PHP", "MySQL", "Bootstrap"], link: "#", github: "#" },
   { id: 4, title: "Project Four", desc: "A brief description of what this project does and the problem it solves. ", tags: ["React.js", "Tailwind", "Firebase"], link: "#", github: "#" },
   { id: 5, title: "Project Five", desc: "A brief description of what this project does and the problem it solves. ", tags: ["Java", "JSP", "Maven"], link: "#", github: "#" },
   { id: 6, title: "Project Six", desc: "A brief description of what this project does and the problem it solves.", tags: ["React", "Node.js", "MongoDB"], link: "#", github: "#" },
-];
+  */
+  ];
 
 const NAV_LINKS = ["About", "Skills", "Projects", "Experience", "Contact"];
 
@@ -939,7 +940,7 @@ function Projects({ t }) {
   return (
     <section id="projects" className="section-padded">
       <div style={{ maxWidth: 1260, margin: "0 auto" }}>
-        <SectionLabel t={t}>— Selected Work</SectionLabel>
+        <SectionLabel t={t}>— My Recent Works</SectionLabel>
         <RevealText>
           <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(28px,4vw,52px)", fontWeight: 700, color: t.ink, marginBottom: 14 }}>
             <WordFade text="6 projects." /><br /><em style={{ color: t.accent, fontStyle: "italic" }}><WordFade text="Each one a story." delay={0.2} /></em>
@@ -947,7 +948,7 @@ function Projects({ t }) {
         </RevealText>
         <RevealText delay={0.1}>
           <p style={{ fontFamily: "Georgia, serif", fontSize: 15, color: t.inkSoft, marginBottom: 56, maxWidth: 520, lineHeight: 1.8 }}>
-            Placeholders for now — but each project will be a deep dive into a unique problem, the tech stack I chose to solve it, and the impact it had. From solo passion projects to production software used by thousands.
+            Each project is a deep dive into a real problem I’ve worked on — the decisions behind the tech stack, the challenges I faced, and the impact delivered. Every build reflects growth, intentional design, and thoughtful execution.
           </p>
         </RevealText>
 
@@ -959,7 +960,7 @@ function Projects({ t }) {
                 onMouseLeave={e => { e.currentTarget.style.boxShadow = "none"; e.currentTarget.style.transform = "translateY(0)"; }}>
                 <div style={{ height: 190, background: `linear-gradient(135deg, hsl(${255 + i * 18},44%,${i % 2 === 0 ? "88" : "20"}%) 0%, hsl(${270 + i * 12},52%,${i % 2 === 0 ? "78" : "14"}%) 100%)`, display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", gap: 8, position: "relative" }}>
                   <Icon name="Code" size={26} color={t.accent} />
-                  <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 10, color: t.inkMuted, letterSpacing: "0.1em" }}>[ Screenshot ]</div>
+                  <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 10, color: t.inkMuted, letterSpacing: "0.1em" }}><img src={p.image}/></div>
                   <div style={{ position: "absolute", top: 14, right: 14, background: t.tagBg, borderRadius: 20, padding: "3px 11px", fontFamily: "'DM Mono', monospace", fontSize: 10, color: t.accent }}>0{p.id}</div>
                 </div>
                 <div style={{ padding: 24, minWidth: 0 }}>
@@ -971,10 +972,10 @@ function Projects({ t }) {
                     ))}
                   </div>
                   <div style={{ display: "flex", gap: 14, alignItems: "center" }}>
-                    <a href={p.link} style={{ fontFamily: "'DM Mono', monospace", fontSize: 11, color: t.accent, textDecoration: "none", display: "flex", alignItems: "center", gap: 5, borderBottom: `1px solid ${t.accent}55` }}>
+                    <a href={p.link} target="_blank" rel="noreferrer" style={{ fontFamily: "'DM Mono', monospace", fontSize: 11, color: t.accent, textDecoration: "none", display: "flex", alignItems: "center", gap: 5, borderBottom: `1px solid ${t.accent}55` }}>
                       Live Demo <Icon name="ExternalLink" size={10} color={t.accent} />
                     </a>
-                    <a href={p.github} style={{ fontFamily: "'DM Mono', monospace", fontSize: 11, color: t.inkMuted, textDecoration: "none", display: "flex", alignItems: "center", gap: 5 }}>
+                    <a href={p.github} target="_blank" rel="noreferrer" style={{ fontFamily: "'DM Mono', monospace", fontSize: 11, color: t.inkMuted, textDecoration: "none", display: "flex", alignItems: "center", gap: 5 }}>
                       <Icon name="Github" size={12} color={t.inkMuted} /> GitHub
                     </a>
                   </div>
