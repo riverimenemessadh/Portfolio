@@ -664,7 +664,7 @@ function About({ t }) {
                 <Icon name="Code" size={36} color={t.accent} />
                 <p style={{ fontFamily: "'DM Mono', monospace", fontSize: 10, color: t.inkMuted, letterSpacing: "0.1em", textAlign: "center", padding: "0 20px" }}>[ Replace with your photo ]<br />Recommended: 600×800px</p>
               </div>
-              <img src="/public/river.jpg" alt="Messadh River" style={{ width: "100%", height: "100%", objectFit: "cover", position: "absolute", inset: 0 }} onError={e => e.target.style.display = "none"} />
+              <img src="/river.jpg" alt="Messadh River" style={{ width: "100%", height: "100%", objectFit: "cover", position: "absolute", inset: 0 }} onError={e => e.target.style.display = "none"} />
             </div>
             <div style={{ position: "absolute", top: 14, left: 14, right: 0, bottom: -14, border: `1.5px solid ${t.border}`, borderRadius: 6, zIndex: -1, overflow: "hidden" }} />
           </motion.div>
