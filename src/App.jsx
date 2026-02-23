@@ -1049,10 +1049,10 @@ function Contact({ t }) {
   const contacts = [
     { icon: "Mail", label: "Email", value: "sarahimenemessadh@gmail.com", href: "mailto:sarahimenemessadh@gmail.com" },
     { icon: "Phone", label: "Phone", value: "+213 55 09 43 87", href: "tel:+213 55 09 43 87" },
-    { icon: "Globe", label: "Upwork", value: "River M.", href: "https://www.upwork.com/freelancers/~017d459f20e3d30e04?mp_source=share" },
+    { icon: "Globe", label: "Upwork", value: "River M.", href: "" },//https://www.upwork.com/freelancers/~017d459f20e3d30e04?mp_source=share
     { icon: "Github", label: "GitHub", value: "riverimenemessadh", href: "https://github.com/riverimenemessadh" },
     { icon: "Instagram", label: "Instagram", value: "@lilyysfanacc", href: "https://www.instagram.com/lilyysfanacc/" },
-    { icon: "MessageSquare", label: "Discord", value: "uenicebitch_14005", href: "https://discord.com/users/1397636269286101137" },
+    { icon: "MessageSquare", label: "Discord", value: "uenicebitch_14005", href: "" },//https://discord.com/users/1397636269286101137
   ];
 
   return (
