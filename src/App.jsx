@@ -29,7 +29,6 @@ const DARK = {
 const SKILLS_BY_CATEGORY = [
   {
     cat: "Frontend",
-    label: "What you see",
     icon: "Monitor",
     skills: [
       { name: "HTML5", stackIcon: "html5", color: "#E34F26" },
@@ -46,7 +45,6 @@ const SKILLS_BY_CATEGORY = [
   },
   {
     cat: "Backend",
-    label: "What powers it",
     icon: "Server",
     skills: [
       { name: "PHP", stackIcon: "php", color: "#777BB4" },
@@ -63,29 +61,28 @@ const SKILLS_BY_CATEGORY = [
       { name: "Figma", stackIcon: "figma", color: "#F24E1E" },
     ],
   },
-  {
+  /*{
     cat: "Mobile",
-    label: "Everywhere you go",
     icon: "Smartphone",
     skills: [
       { name: "Flutter", stackIcon: "flutter", color: "#54C5F8" },
       { name: "Dart", stackIcon: "dart", color: "#0175C2" },
       { name: "Kotlin", stackIcon: "kotlin", color: "#7F52FF", imgSrc: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/kotlin/kotlin-original.svg" },
     ],
-  },
+  },*/
 ];
 
 const SOFT_SKILLS = [
-  { icon: "Brain", label: "Problem Solver", desc: "Breaks complex challenges into elegant, logical solutions." },
-  { icon: "Target", label: "Detail-Oriented", desc: "Every pixel, every function — precision is a habit." },
-  { icon: "Users", label: "Collaborative", desc: "Thrives in teams, listens actively, communicates clearly." },
-  { icon: "Zap", label: "Fast Learner", desc: "Adopted an entire tech stack and landed an internship at 18." },
-  { icon: "Lightbulb", label: "Creative Thinker", desc: "Doesn't just build what's asked — reimagines what's possible." },
-  { icon: "Flame", label: "Self-Motivated", desc: "Fell into coding by accident. Never looked back. Still going." },
+  { icon: "Brain", label: "Problem Solver", desc: "I break down complex problems until they make sense, then build the simplest solution that actually works." },
+  { icon: "Target", label: "Detail-Oriented", desc: "I care about the small things — a misaligned element or a poorly named variable bothers me until it's fixed." },
+  { icon: "Users", label: "Collaborative", desc: "I work well with others, ask when I don't know, and communicate clearly rather than disappear into my code." },
+  { icon: "Zap", label: "Fast Learner", desc: "I picked up a full professional tech stack and landed an apprenticeship at 18. I learn fast when I have a reason to." },
+  { icon: "Lightbulb", label: "Creative Thinker", desc: "I don't just build what's asked — I think about why it's being asked and whether there's a better way." },
+  { icon: "Flame", label: "Self-Motivated", desc: "I started coding at 17 with no roadmap. Two years later I'm still building, still learning, and nowhere near done." },
 ];
 
 const PROJECTS = [
-  { id: 1, title: "Reservel", desc: "Réservel is a full-stack reservation management platform built for academic institutions. It features secure authentication and role-based authorization, a booking system with conflict detection, equipment maintenance reporting, an admin notification system, and multi-language support with dynamic Arabic/French RTL switching. for login : admin: admin@institute.dz prof: lydia.idir@institute.dz pass: password", tags: ["Laravel", "Blade", "MySQL", "Bootstrap 5"], link: "https://reservel-production.up.railway.app", github: "https://github.com/riverimenemessadh/Reservel", image: "/reservel.png"},
+  //{ id: 1, title: "Reservel", desc: "Réservel is a full-stack reservation management platform built for academic institutions. It features secure authentication and role-based authorization, a booking system with conflict detection, equipment maintenance reporting, an admin notification system, and multi-language support with dynamic Arabic/French RTL switching. for login : admin: admin@institute.dz prof: lydia.idir@institute.dz pass: password", tags: ["Laravel", "Blade", "MySQL", "Bootstrap 5"], link: "https://reservel-production.up.railway.app", github: "https://github.com/riverimenemessadh/Reservel", image: "/reservel.png"},
   { id: 2, title: "StageConnect", desc: "StageConnect is a full-stack internship management platform connecting students, companies, and academic institutions. Students can browse and apply for internships, track their applications, and complete assessments. Companies can post offers, review applicants, and manage their interns. An admin panel provides full oversight of all platform activity. Built with Java EE (Servlets + JSP) and MySQL, deployed on Render with a cloud-hosted database on Railway.", tags: ["Java", "JSP", "MYSQL", "Bootstrap 5"], link: "https://stageconnect-0a4y.onrender.com", github: "https://github.com/riverimenemessadh/StagesPlatform", image: "/stageconnect.png" },
   /*{ id: 3, title: "Project Three", desc: "A brief description of what this project does and the problem it solves. ", tags: ["PHP", "MySQL", "Bootstrap"], link: "#", github: "#" },
   { id: 4, title: "Project Four", desc: "A brief description of what this project does and the problem it solves. ", tags: ["React.js", "Tailwind", "Firebase"], link: "#", github: "#" },
@@ -906,11 +903,6 @@ function Skills({ t, dark }) {
         {/* Soft Skills */}
         <div style={{ marginTop: 80 }}>
           <SectionLabel t={t}>— Soft Skills</SectionLabel>
-          <RevealText>
-            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(22px,3vw,40px)", fontWeight: 700, color: t.ink, marginBottom: 40 }}>
-              The human side of the <em style={{ color: t.accent, fontStyle: "italic" }}>engineer.</em>
-            </h2>
-          </RevealText>
           <motion.div initial="hidden" animate={inView ? "visible" : "hidden"} variants={stagger}
             className="soft-skills-grid">
             {SOFT_SKILLS.map((s, i) => (
@@ -941,16 +933,6 @@ function Projects({ t }) {
     <section id="projects" className="section-padded">
       <div style={{ maxWidth: 1260, margin: "0 auto" }}>
         <SectionLabel t={t}>— My Recent Works</SectionLabel>
-        <RevealText>
-          <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(28px,4vw,52px)", fontWeight: 700, color: t.ink, marginBottom: 14 }}>
-            <WordFade text="6 projects." /><br /><em style={{ color: t.accent, fontStyle: "italic" }}><WordFade text="Each one a story." delay={0.2} /></em>
-          </h2>
-        </RevealText>
-        <RevealText delay={0.1}>
-          <p style={{ fontFamily: "Georgia, serif", fontSize: 15, color: t.inkSoft, marginBottom: 56, maxWidth: 520, lineHeight: 1.8 }}>
-            Each project is a deep dive into a real problem I’ve worked on — the decisions behind the tech stack, the challenges I faced, and the impact delivered. Every build reflects growth, intentional design, and thoughtful execution.
-          </p>
-        </RevealText>
 
         <div className="projects-grid">
           {PROJECTS.map((p, i) => (
@@ -996,8 +978,8 @@ function Experience({ t }) {
   const inView = useInView(ref, { once: true, margin: "-80px" });
 
   const cards = [
-    { side: -1, delay: 0.2, label: "Work Experience", icon: "Briefcase", date: "Oct 2024 – Present · Algiers", role: "Software Development Intern", org: "Sonelgaz — National Electricity & Gas Company", desc: "Over a year of hands-on experience building and maintaining internal software for one of Algeria's largest state enterprises. Contributed to production systems used by thousands of employees daily.", tags: ["Laravel", "React.js", "MySQL", "REST API", "PHP", "Java", "WordPress", "Kotlin", "Flutter"] },
-    { side: 1, delay: 0.35, label: "Education", icon: "GraduationCap", date: "2024 – Present", role: "Web & Mobile Development", org: "INSFP Rahmania · Algiers, Algeria", desc: "Specializing in fullstack web and mobile development — from algorithms to production-grade applications and cross-platform mobile apps.", tags: [] },
+    { side: -1, delay: 0.2, label: "Work Experience", icon: "Briefcase", date: "Oct 2024 – Present · Algiers", role: "Software Development Intern", org: "Sonelgaz — National Electricity & Gas Company", desc: "Currently apprenticing at one of Algeria's largest state enterprises, where I've spent over a year in a real enterprise environment — observing professional workflows, building projects as part of my training, and developing a practical understanding of software in large-scale organizations." },
+    { side: 1, delay: 0.35, label: "Education", icon: "GraduationCap", date: "2024 – Present", role: "Web & Mobile Development", org: "INSFP Rahmania · Algiers, Algeria", desc: "Specializing in fullstack web and mobile development — from algorithms to production-grade applications and cross-platform mobile apps." },
   ];
 
   return (
@@ -1059,14 +1041,9 @@ function Contact({ t }) {
     <section id="contact" ref={ref} className="section-padded-bottom">
       <div style={{ maxWidth: 1260, margin: "0 auto" }}>
         <SectionLabel t={t}>— Let's Connect</SectionLabel>
-        <RevealText>
-          <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(36px,6vw,80px)", fontWeight: 700, color: t.ink, lineHeight: 1, marginBottom: 20 }}>
-            <WordFade text="Ready to build" /><br /><em style={{ color: t.accent, fontStyle: "italic" }}><WordFade text="something great?" delay={0.25} /></em>
-          </h2>
-        </RevealText>
         <RevealText delay={0.1}>
           <p style={{ fontFamily: "Georgia, serif", fontSize: "clamp(15px,1.5vw,18px)", color: t.inkSoft, maxWidth: "min(520px, 100%)", lineHeight: 1.8, marginBottom: 56 }}>
-            I'm actively looking for my next opportunity. Whether you have a project, a position, or just want to talk tech — my inbox is always open.
+            Open to freelance projects and full-time opportunities. If you have work that needs doing, I'm ready to deliver.
           </p>
         </RevealText>
 
