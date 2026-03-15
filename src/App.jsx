@@ -1007,11 +1007,6 @@ function Experience({ t }) {
                   <h4 style={{ fontFamily: "'Syne', sans-serif", fontWeight: 700, fontSize: "clamp(16px,2vw,20px)", color: t.ink, marginBottom: 4, wordBreak: "break-word" }}>{role}</h4>
                   <p style={{ fontFamily: "Georgia, serif", fontSize: 14, color: t.accent, fontStyle: "italic", marginBottom: 12, wordBreak: "break-word" }}>{org}</p>
                   <p style={{ fontFamily: "Georgia, serif", fontSize: 13, color: t.inkSoft, lineHeight: 1.8, wordBreak: "break-word" }}>{desc}</p>
-                  {tags.length > 0 && (
-                    <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginTop: 14 }}>
-                      {tags.map(tag => <span key={tag} style={{ background: t.tagBg, color: t.tagColor, fontFamily: "'DM Mono', monospace", fontSize: 10, padding: "3px 9px", borderRadius: 2 }}>{tag}</span>)}
-                    </div>
-                  )}
                 </div>
               </motion.div>
             </div>
