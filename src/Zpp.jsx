@@ -878,7 +878,7 @@ function Contact({ t }) {
     const contacts = [
         { icon: "Mail", label: "Email", value: "sarahimenemessadh@gmail.com", href: "mailto:sarahimenemessadh@gmail.com" },
         { icon: "Phone", label: "Phone", value: "+213 55 09 43 87", href: "tel:+21355094387" },
-        { icon: "Globe", label: "Upwork", value: "River M.", href: "" },
+        { icon: "Globe", label: "Upwork", value: "River M.", href: "https://www.upwork.com/freelancers/~017d459f20e3d30e04?mp_source=share" },
         { icon: "Github", label: "GitHub", value: "riverimenemessadh", href: "https://github.com/riverimenemessadh" },
     ];
 
