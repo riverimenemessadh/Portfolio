@@ -2,8 +2,6 @@ import { useState, useEffect, useRef } from "react";
 import { motion, useScroll, useTransform, useInView, AnimatePresence, useSpring } from "framer-motion";
 import StackIcon from "tech-stack-icons";
 
-// ─── THEME ────────────────────────────────────────────────────────────────────
-
 const LIGHT = {
     bg: "#FCF8FF", bg2: "#F4F0FA", card: "#ffffff",
     ink: "#1a1025", inkSoft: "#5a4a6e", inkMuted: "#9a88b0",
@@ -24,11 +22,10 @@ const DARK = {
     orb1: "rgba(155,114,207,0.12)", orb2: "rgba(100,60,180,0.1)",
 };
 
-// ─── SKILLS DATA ──────────────────────────────────────────────────────────────
-
 const SKILLS_BY_CATEGORY = [
     {
         cat: "Frontend",
+        section: "Web",
         icon: "Monitor",
         skills: [
             { name: "HTML5", stackIcon: "html5", color: "#E34F26" },
@@ -38,13 +35,13 @@ const SKILLS_BY_CATEGORY = [
             { name: "Bootstrap", stackIcon: "bootstrap5", color: "#7952B3", imgSrc: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/bootstrap/bootstrap-original.svg" },
             { name: "Tailwind", stackIcon: "tailwindcss", color: "#38B2AC" },
             { name: "Vite", stackIcon: "vitejs", color: "#646CFF", imgSrc: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vitejs/vitejs-original.svg" },
-            { name: "jQuery", stackIcon: "jquery", color: "#0769AD" },
             { name: "JSON", stackIcon: "json", color: "#5A9E6F", imgSrc: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/json/json-original.svg" },
             { name: "WordPress", stackIcon: "wordpress", color: "#21759B" },
         ],
     },
     {
         cat: "Backend",
+        section: "Web",
         icon: "Server",
         skills: [
             { name: "PHP", stackIcon: "php", color: "#777BB4" },
@@ -54,11 +51,19 @@ const SKILLS_BY_CATEGORY = [
             { name: "REST API", stackIcon: "postman", color: "#FF6C37" },
             { name: "Java", stackIcon: "java", color: "#007396" },
             { name: "Maven", stackIcon: "maven", color: "#C71A36", fallback: "MVN" },
-            { name: "C++", stackIcon: "c++", color: "#00599C" },
             { name: "NPM", stackIcon: "npm", color: "#CB3837" },
             { name: "Git", stackIcon: "git", color: "#F05032" },
             { name: "GitHub", stackIcon: "github", color: "#333", darkVariant: "light" },
-            { name: "Figma", stackIcon: "figma", color: "#F24E1E" },
+        ],
+    },
+    {
+        cat: "Mobile",
+        section: "Mobile",
+        icon: "Smartphone",
+        skills: [
+            { name: "Flutter", stackIcon: "flutter", color: "#54C5F8" },
+            { name: "Kotlin", stackIcon: "kotlin", color: "#7F52FF", imgSrc: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/kotlin/kotlin-original.svg" },
+            { name: "Android Studio", stackIcon: "androidstudio", color: "#3DDC84", imgSrc: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/androidstudio/androidstudio-original.svg" },
         ],
     },
 ];
@@ -72,7 +77,6 @@ const SOFT_SKILLS = [
     { icon: "Flame", label: "Self-Motivated", desc: "I started coding at 17 with no roadmap. Two years later I'm still building, still learning, and nowhere near done." },
 ];
 
-/* ─── PROJECTS DATA (commented out) ──────────────────────────────────────────
 const PROJECTS = [
     {
         id: 1,
@@ -81,15 +85,22 @@ const PROJECTS = [
         tags: ["Java", "JSP", "MySQL", "Bootstrap 5"],
         link: "https://stageconnect-0a4y.onrender.com",
         github: "https://github.com/riverimenemessadh/StagesPlatform",
-        image: "/stageconnect.png"
+        images: ["/stageconnect.png", "/stage1.png", "/stage2.png", "/stage3.png", "/stage4.png", "/stage5.png", "/stage6.png", "/stage7.png", "/stage8.png", "/stage9.png",]
+    },
+    {
+        id: 2,
+        title: "Reservel",
+        desc: "A web application for managing pedagogical resources, eliminating the scheduling conflicts caused by manual reservation of rooms and equipment. Features multi-role authentication and a clean admin interface.",
+        tags: ["PHP", "Laravel", "MySQL", "Bootstrap 5", "Blade"],
+        link: "",
+        github: "https://github.com/riverimenemessadh/Reservel",
+        images: ["/Reservel1.png", "/Reservel2.png", "/Reservel3.png", "/reservel.png", "/Reservel4.png", "/Reservel6.png", "/Reservel7.png", "Rezervel8.png"],
     },
 ];
-*/
 
-// ─── NAV LINKS (Projects removed) ────────────────────────────────────────────
-const NAV_LINKS = ["About", "Skills", "Experience", "Contact"];
+const NAV_LINKS = ["About", "Skills", "Projects", "Experience", "Contact"];
 
-// ─── ANIMATION VARIANTS ───────────────────────────────────────────────────────
+const RESUME_URL = "https://github.com/riverimenemessadh/Portfolio/blob/main/public/CV_Messadh.docx";
 
 const fadeUp = {
     hidden: { opacity: 0, y: 40 },
@@ -103,8 +114,6 @@ const stagger = {
     hidden: {},
     visible: { transition: { staggerChildren: 0.06 } }
 };
-
-// ─── ICON PATHS ───────────────────────────────────────────────────────────────
 
 const ICON_PATHS = {
     Brain: "M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96-.46 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96-.46 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z",
@@ -126,12 +135,14 @@ const ICON_PATHS = {
     MessageSquare: "M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z",
     ExternalLink: "M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6 M15 3h6v6 M10 14L21 3",
     ArrowRight: "M5 12h14 M12 5l7 7-7 7",
+    ArrowLeft: "M19 12H5 M12 19l-7-7 7-7",
     Download: "M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4 M7 10l5 5 5-5 M12 15V3",
     Code: "M16 18l6-6-6-6 M8 6l-6 6 6 6",
     Menu: "M3 12h18 M3 6h18 M3 18h18",
     X: "M18 6L6 18 M6 6l12 12",
     Monitor: "M20 3H4a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2z M8 21h8 M12 17v4",
     Server: "M2 9a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9z M2 19a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v1a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-1z M6 12v.01 M6 20v.01",
+    Smartphone: "M17 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z M12 18h.01",
 };
 
 function Icon({ name, size = 18, color = "currentColor", strokeWidth = 1.7 }) {
@@ -146,7 +157,58 @@ function Icon({ name, size = 18, color = "currentColor", strokeWidth = 1.7 }) {
     );
 }
 
-// ─── SKILL CARD ───────────────────────────────────────────────────────────────
+function ImageSlider({ images, title, t }) {
+    const [current, setCurrent] = useState(0);
+    const total = images.length;
+
+    const prev = (e) => {
+        e.stopPropagation();
+        setCurrent(c => (c - 1 + total) % total);
+    };
+    const next = (e) => {
+        e.stopPropagation();
+        setCurrent(c => (c + 1) % total);
+    };
+
+    return (
+        <div style={{ height: 190, position: "relative", overflow: "hidden", background: `linear-gradient(135deg, hsl(255,44%,88%) 0%, hsl(270,52%,78%) 100%)` }}>
+            <AnimatePresence mode="wait">
+                <motion.img
+                    key={current}
+                    src={images[current]}
+                    alt={`${title} screenshot ${current + 1}`}
+                    initial={{ opacity: 0, x: 30 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -30 }}
+                    transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                    style={{ width: "100%", height: "100%", objectFit: "cover", position: "absolute", inset: 0 }}
+                    onError={e => e.target.style.display = "none"}
+                />
+            </AnimatePresence>
+            <div style={{ position: "absolute", top: 14, right: 14, background: t.tagBg, borderRadius: 20, padding: "3px 11px", fontFamily: "'DM Mono', monospace", fontSize: 10, color: t.accent, zIndex: 2 }}>
+                {String(current + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
+            </div>
+            {total > 1 && (
+                <>
+                    <button onClick={prev}
+                        style={{ position: "absolute", left: 10, top: "50%", transform: "translateY(-50%)", zIndex: 3, background: "rgba(0,0,0,0.35)", border: "none", borderRadius: "50%", width: 30, height: 30, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", backdropFilter: "blur(4px)" }}>
+                        <Icon name="ArrowLeft" size={14} color="#fff" />
+                    </button>
+                    <button onClick={next}
+                        style={{ position: "absolute", right: 10, top: "50%", transform: "translateY(-50%)", zIndex: 3, background: "rgba(0,0,0,0.35)", border: "none", borderRadius: "50%", width: 30, height: 30, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", backdropFilter: "blur(4px)" }}>
+                        <Icon name="ArrowRight" size={14} color="#fff" />
+                    </button>
+                    <div style={{ position: "absolute", bottom: 10, left: "50%", transform: "translateX(-50%)", display: "flex", gap: 5, zIndex: 3 }}>
+                        {images.map((_, i) => (
+                            <button key={i} onClick={e => { e.stopPropagation(); setCurrent(i); }}
+                                style={{ width: i === current ? 16 : 6, height: 6, borderRadius: 3, background: i === current ? "#fff" : "rgba(255,255,255,0.45)", border: "none", cursor: "pointer", padding: 0, transition: "width 0.25s, background 0.25s" }} />
+                        ))}
+                    </div>
+                </>
+            )}
+        </div>
+    );
+}
 
 function SkillCard({ skill, t, dark }) {
     const [hov, setHov] = useState(false);
@@ -184,15 +246,11 @@ function SkillCard({ skill, t, dark }) {
     );
 }
 
-// ─── SCROLL PROGRESS BAR ──────────────────────────────────────────────────────
-
 function ScrollBar({ t }) {
     const { scrollYProgress } = useScroll();
     const scaleX = useSpring(scrollYProgress, { stiffness: 200, damping: 40 });
     return <motion.div style={{ position: "fixed", top: 0, left: 0, right: 0, height: 2, background: t.accent, scaleX, transformOrigin: "0%", zIndex: 300 }} />;
 }
-
-// ─── LOADER ───────────────────────────────────────────────────────────────────
 
 function Loader({ onDone }) {
     const [phase, setPhase] = useState(0);
@@ -211,7 +269,7 @@ function Loader({ onDone }) {
                         style={{ position: "absolute", inset: 0, background: "#0d0a14", zIndex: 2 }} />
                     <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
                         style={{ position: "relative", zIndex: 3, textAlign: "center" }}>
-                        <p style={{ fontFamily: "'DM Mono', monospace", fontSize: 11, letterSpacing: "0.3em", textTransform: "uppercase", color: "#9B72CF", marginBottom: 20 }}>Full Stack Web Developer</p>
+                        <p style={{ fontFamily: "'DM Mono', monospace", fontSize: 11, letterSpacing: "0.3em", textTransform: "uppercase", color: "#9B72CF", marginBottom: 20 }}>Full Stack Web & Mobile Developer</p>
                         <h1 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: "clamp(48px, 8vw, 96px)", fontWeight: 700, color: "#f0eaf8", lineHeight: 0.95, letterSpacing: "-0.02em" }}>
                             Messadh<br /><em style={{ fontStyle: "italic", color: "#9B72CF" }}>River.</em>
                         </h1>
@@ -225,8 +283,6 @@ function Loader({ onDone }) {
         </AnimatePresence>
     );
 }
-
-// ─── ANIMATION HELPERS ────────────────────────────────────────────────────────
 
 function ScrollFloat({ children, delay = 0, style = {} }) {
     const ref = useRef(null);
@@ -354,8 +410,6 @@ function ThemeToggle({ dark, toggle, t }) {
     );
 }
 
-// ─── HERO NAME ────────────────────────────────────────────────────────────────
-
 function HeroName({ t }) {
     const line1 = "Messadh".split("");
     const line2 = "River.".split("");
@@ -414,8 +468,6 @@ function HeroName({ t }) {
     );
 }
 
-// ─── NAV ──────────────────────────────────────────────────────────────────────
-
 function Nav({ dark, toggle, t }) {
     const [scrolled, setScrolled] = useState(false);
     const [menuOpen, setMenuOpen] = useState(false);
@@ -451,7 +503,7 @@ function Nav({ dark, toggle, t }) {
                     <div className="nav-mobile" style={{ display: "none", alignItems: "center", gap: 10 }}>
                         <ThemeToggle dark={dark} toggle={toggle} t={t} />
                         <button onClick={() => setMenuOpen(o => !o)}
-                            style={{ background: "transparent", border: `1.5px solid ${t.border}`, borderRadius: 8, width: 40, height: 40, display: "flex", alignItems: "center", justifyContent: "cursor: pointer" }}>
+                            style={{ background: "transparent", border: `1.5px solid ${t.border}`, borderRadius: 8, width: 40, height: 40, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>
                             <Icon name={menuOpen ? "X" : "Menu"} size={16} color={t.ink} />
                         </button>
                     </div>
@@ -474,16 +526,22 @@ function Nav({ dark, toggle, t }) {
     );
 }
 
-// ─── HERO ─────────────────────────────────────────────────────────────────────
-
 function Hero({ t }) {
     const { scrollYProgress } = useScroll();
     const y = useTransform(scrollYProgress, [0, 0.3], [0, -60]);
     const opacity = useTransform(scrollYProgress, [0, 0.28], [1, 0]);
 
+    const resumeBtn = (extraStyle = {}) => (
+        <a href={RESUME_URL} download
+            style={{ display: "inline-flex", alignItems: "center", gap: 10, padding: "14px 30px", background: "transparent", color: t.ink, fontFamily: "'DM Mono', monospace", fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase", textDecoration: "none", border: `1.5px solid ${t.border}`, borderRadius: 3, transition: "border-color .25s, transform .2s", ...extraStyle }}
+            onMouseEnter={e => { e.currentTarget.style.borderColor = t.accent; e.currentTarget.style.transform = "translateY(-2px)"; }}
+            onMouseLeave={e => { e.currentTarget.style.borderColor = t.border; e.currentTarget.style.transform = "translateY(0)"; }}>
+            Get My CV <Icon name="Download" size={13} color={t.ink} />
+        </a>
+    );
+
     return (
         <section id="hero" style={{ minHeight: "100svh", display: "flex", flexDirection: "column", justifyContent: "center", padding: "clamp(90px,12vw,120px) clamp(20px,5vw,60px) clamp(32px,4vw,44px)", position: "relative", overflow: "hidden" }}>
-            {/* Ambient background orbs */}
             <div style={{ position: "absolute", top: "12%", right: "5%", width: "min(520px,52vw)", height: "min(520px,52vw)", borderRadius: "50%", background: `radial-gradient(circle, ${t.orb1} 0%, transparent 70%)`, pointerEvents: "none" }} />
             <div style={{ position: "absolute", bottom: "8%", left: "1%", width: "min(300px,32vw)", height: "min(300px,32vw)", borderRadius: "50%", background: `radial-gradient(circle, ${t.orb2} 0%, transparent 70%)`, pointerEvents: "none" }} />
 
@@ -501,7 +559,6 @@ function Hero({ t }) {
                     <div className="hero-left">
                         <HeroName t={t} />
 
-                        {/* Role label — mobile only */}
                         <motion.div className="hero-role-mobile"
                             initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 1.0 }}
                             style={{ display: "none", alignItems: "center", gap: 10, marginBottom: 28 }}>
@@ -511,37 +568,29 @@ function Hero({ t }) {
                             </span>
                         </motion.div>
 
-                        {/* Hero tagline */}
                         <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.4, delay: 1.1 }}
                             style={{ fontFamily: "'Playfair Display', Georgia, serif", fontStyle: "italic", fontSize: "clamp(15px,2.1vw,24px)", color: t.inkSoft, maxWidth: "min(600px, 100%)", lineHeight: 1.55, marginBottom: 52, wordBreak: "break-word" }}>
-                            <WordFade text="Fullstack developer with a focus on clean code and real-world impact." delay={1.2} />
+                            <WordFade text="I build things that work, look good, and solve real problems." delay={1.2} />
                         </motion.p>
 
-                        {/* CTA buttons — mobile only (View My Work and Get My Resume removed) */}
                         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 1.55 }}
                             className="hero-cta hero-cta-mobile">
-                            {/* <a href="#projects"
+                            <a href="#projects"
                                 style={{ display: "inline-flex", alignItems: "center", gap: 10, padding: "14px 30px", background: t.accent, color: "#fff", fontFamily: "'DM Mono', monospace", fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase", textDecoration: "none", borderRadius: 3, transition: "background .25s, transform .2s" }}
                                 onMouseEnter={e => { e.currentTarget.style.background = t.accentDark; e.currentTarget.style.transform = "translateY(-2px)"; }}
                                 onMouseLeave={e => { e.currentTarget.style.background = t.accent; e.currentTarget.style.transform = "translateY(0)"; }}>
                                 View My Work <Icon name="ArrowRight" size={13} color="#fff" />
-                            </a> */}
+                            </a>
                             <a href="#contact"
                                 style={{ display: "inline-flex", alignItems: "center", gap: 10, padding: "14px 30px", background: "transparent", color: t.ink, fontFamily: "'DM Mono', monospace", fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase", textDecoration: "none", border: `1.5px solid ${t.border}`, borderRadius: 3, transition: "border-color .25s, transform .2s" }}
                                 onMouseEnter={e => { e.currentTarget.style.borderColor = t.accent; e.currentTarget.style.transform = "translateY(-2px)"; }}
                                 onMouseLeave={e => { e.currentTarget.style.borderColor = t.border; e.currentTarget.style.transform = "translateY(0)"; }}>
                                 Let's Talk
                             </a>
-                            {/* <a href="#"
-                                style={{ display: "inline-flex", alignItems: "center", gap: 10, padding: "14px 30px", background: "transparent", color: t.ink, fontFamily: "'DM Mono', monospace", fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase", textDecoration: "none", border: `1.5px solid ${t.border}`, borderRadius: 3, transition: "border-color .25s, transform .2s" }}
-                                onMouseEnter={e => { e.currentTarget.style.borderColor = t.accent; e.currentTarget.style.transform = "translateY(-2px)"; }}
-                                onMouseLeave={e => { e.currentTarget.style.borderColor = t.border; e.currentTarget.style.transform = "translateY(0)"; }}>
-                                Get My Resume <Icon name="Download" size={13} color={t.ink} />
-                            </a> */}
+                            {resumeBtn()}
                         </motion.div>
                     </div>
 
-                    {/* Right column — desktop only (View My Work and Get My Resume removed) */}
                     <motion.div className="hero-right"
                         initial="hidden" animate="visible"
                         variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.13, delayChildren: 0.9 } } }}
@@ -556,13 +605,13 @@ function Hero({ t }) {
                             style={{ fontFamily: "Georgia, serif", fontSize: "clamp(14px,1.1vw,16px)", color: t.inkSoft, lineHeight: 1.8, marginBottom: 40, maxWidth: 320 }}>
                             Frontend craft. Backend architecture. All in one.
                         </motion.p>
-                        {/* <motion.a href="#projects"
+                        <motion.a href="#projects"
                             variants={{ hidden: { opacity: 0, x: 48 }, visible: { opacity: 1, x: 0, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } } }}
                             style={{ display: "inline-flex", alignItems: "center", gap: 10, padding: "14px 30px", background: t.accent, color: "#fff", fontFamily: "'DM Mono', monospace", fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase", textDecoration: "none", borderRadius: 3, transition: "background .25s, transform .2s", whiteSpace: "nowrap", marginBottom: 14 }}
                             onMouseEnter={e => { e.currentTarget.style.background = t.accentDark; e.currentTarget.style.transform = "translateY(-2px)"; }}
                             onMouseLeave={e => { e.currentTarget.style.background = t.accent; e.currentTarget.style.transform = "translateY(0)"; }}>
                             View My Work <Icon name="ArrowRight" size={13} color="#fff" />
-                        </motion.a> */}
+                        </motion.a>
                         <motion.a href="#contact"
                             variants={{ hidden: { opacity: 0, x: 48 }, visible: { opacity: 1, x: 0, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } } }}
                             style={{ display: "inline-flex", alignItems: "center", gap: 10, padding: "14px 30px", background: "transparent", color: t.ink, fontFamily: "'DM Mono', monospace", fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase", textDecoration: "none", border: `1.5px solid ${t.border}`, borderRadius: 3, transition: "border-color .25s, transform .2s", whiteSpace: "nowrap", marginBottom: 14 }}
@@ -570,21 +619,16 @@ function Hero({ t }) {
                             onMouseLeave={e => { e.currentTarget.style.borderColor = t.border; e.currentTarget.style.transform = "translateY(0)"; }}>
                             Let's Talk
                         </motion.a>
-                        {/* <motion.a href="#"
-                            variants={{ hidden: { opacity: 0, x: 48 }, visible: { opacity: 1, x: 0, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } } }}
-                            style={{ display: "inline-flex", alignItems: "center", gap: 10, padding: "14px 30px", background: "transparent", color: t.ink, fontFamily: "'DM Mono', monospace", fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase", textDecoration: "none", border: `1.5px solid ${t.border}`, borderRadius: 3, transition: "border-color .25s, transform .2s", whiteSpace: "nowrap" }}
-                            onMouseEnter={e => { e.currentTarget.style.borderColor = t.accent; e.currentTarget.style.transform = "translateY(-2px)"; }}
-                            onMouseLeave={e => { e.currentTarget.style.borderColor = t.border; e.currentTarget.style.transform = "translateY(0)"; }}>
-                            Get My Resume <Icon name="Download" size={13} color={t.ink} />
-                        </motion.a> */}
+                        <motion.div
+                            variants={{ hidden: { opacity: 0, x: 48 }, visible: { opacity: 1, x: 0, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } } }}>
+                            {resumeBtn({ whiteSpace: "nowrap" })}
+                        </motion.div>
                     </motion.div>
                 </div>
             </motion.div>
         </section>
     );
 }
-
-// ─── ABOUT ────────────────────────────────────────────────────────────────────
 
 function About({ t }) {
     const ref = useRef(null);
@@ -628,8 +672,6 @@ function About({ t }) {
 
                 <div style={{ minWidth: 0 }}>
                     <SectionLabel t={t}>— About Me</SectionLabel>
-
-                    {/* About body — professional, no life story, no overclaiming */}
                     <RevealText delay={0.1}>
                         <p style={{ fontFamily: "Georgia, serif", fontSize: "clamp(14px,1.4vw,17px)", lineHeight: 1.9, color: t.inkSoft, marginBottom: 18 }}>
                             I'm a fullstack web developer based in Algiers, Algeria — available for freelance work and open to professional opportunities. I build complete web applications, handling everything from database design to the final interface.
@@ -640,7 +682,6 @@ function About({ t }) {
                             I've trained inside a real enterprise environment and I know what it takes to deliver clean, functional software on time. If you have a project that needs building, I'm the person who will see it through.
                         </p>
                     </RevealText>
-
                     <RevealText delay={0.2}>
                         <div className="about-pills">
                             {[
@@ -661,10 +702,8 @@ function About({ t }) {
     );
 }
 
-// ─── SKILL MARQUEE ────────────────────────────────────────────────────────────
-
 function SkillMarquee({ t }) {
-    const items = ["HTML5", "CSS3", "JavaScript", "React", "Laravel", "PHP", "MySQL", "Tailwind", "Git", "Figma", "Vite", "Bootstrap", "WordPress", "NPM", "Java", "PHP"];
+    const items = ["HTML5", "CSS3", "JavaScript", "React", "Laravel", "PHP", "MySQL", "Tailwind", "Git", "Flutter", "Kotlin", "WordPress", "NPM", "Java", "PHP"];
     const repeated = [...items, ...items];
     return (
         <div style={{ display: "flex", gap: "clamp(32px,4vw,52px)", overflow: "hidden", WebkitMaskImage: "linear-gradient(90deg,transparent,black 10%,black 90%,transparent)" }}>
@@ -681,11 +720,32 @@ function SkillMarquee({ t }) {
     );
 }
 
-// ─── SKILLS ───────────────────────────────────────────────────────────────────
-
 function Skills({ t, dark }) {
     const ref = useRef(null);
     const inView = useInView(ref, { once: true, margin: "-60px" });
+
+    const webCategories = SKILLS_BY_CATEGORY.filter(c => c.section === "Web");
+    const mobileCategories = SKILLS_BY_CATEGORY.filter(c => c.section === "Mobile");
+
+    const renderCategory = (cat, ci) => (
+        <div key={cat.cat} style={{ marginBottom: 60 }}>
+            <RevealText delay={ci * 0.05}>
+                <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 28 }}>
+                    <div style={{ width: 34, height: 34, borderRadius: 9, background: t.tagBg, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                        <Icon name={cat.icon} size={16} color={t.accent} />
+                    </div>
+                    <p style={{ fontFamily: "'Syne', sans-serif", fontWeight: 700, fontSize: 17, color: t.ink, margin: 0 }}>{cat.cat}</p>
+                </div>
+            </RevealText>
+            <motion.div initial="hidden" animate={inView ? "visible" : "hidden"} variants={stagger} className="skill-grid">
+                {cat.skills.map((skill, i) => (
+                    <motion.div key={skill.name} variants={fadeUp} custom={i}>
+                        <SkillCard skill={skill} t={t} dark={dark} />
+                    </motion.div>
+                ))}
+            </motion.div>
+        </div>
+    );
 
     return (
         <section id="skills" ref={ref} className="section-padded" style={{ background: `linear-gradient(to bottom, transparent, ${t.bg2}55, transparent)` }}>
@@ -708,32 +768,28 @@ function Skills({ t, dark }) {
                     <div style={{ height: 1, background: t.border, marginTop: 28 }} />
                 </div>
 
-                {SKILLS_BY_CATEGORY.map((cat, ci) => (
-                    <div key={cat.cat} style={{ marginBottom: 60 }}>
-                        <RevealText delay={ci * 0.05}>
-                            <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 28 }}>
-                                <div style={{ width: 34, height: 34, borderRadius: 9, background: t.tagBg, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                                    <Icon name={cat.icon} size={16} color={t.accent} />
-                                </div>
-                                <div>
-                                    <p style={{ fontFamily: "'Syne', sans-serif", fontWeight: 700, fontSize: 17, color: t.ink, margin: 0 }}>{cat.cat}</p>
-                                </div>
-                            </div>
-                        </RevealText>
-                        <motion.div initial="hidden" animate={inView ? "visible" : "hidden"} variants={stagger} className="skill-grid">
-                            {cat.skills.map((skill, i) => (
-                                <motion.div key={skill.name} variants={fadeUp} custom={i}>
-                                    <SkillCard skill={skill} t={t} dark={dark} />
-                                </motion.div>
-                            ))}
-                        </motion.div>
-                        {ci < SKILLS_BY_CATEGORY.length - 1 && (
-                            <div style={{ height: 1, background: t.border, marginTop: 52 }} />
-                        )}
+                <RevealText>
+                    <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 36 }}>
+                        <Icon name="Monitor" size={18} color={t.accent} />
+                        <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(20px,2.5vw,30px)", fontWeight: 700, color: t.ink, margin: 0 }}>
+                            Web <em style={{ color: t.accent, fontStyle: "italic" }}>Development</em>
+                        </h3>
                     </div>
-                ))}
+                </RevealText>
+                {webCategories.map((cat, i) => renderCategory(cat, i))}
 
-                {/* Soft skills */}
+                <div style={{ height: 1, background: t.border, margin: "16px 0 48px" }} />
+
+                <RevealText>
+                    <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 36 }}>
+                        <Icon name="Smartphone" size={18} color={t.accent} />
+                        <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(20px,2.5vw,30px)", fontWeight: 700, color: t.ink, margin: 0 }}>
+                            Mobile <em style={{ color: t.accent, fontStyle: "italic" }}>Development</em>
+                        </h3>
+                    </div>
+                </RevealText>
+                {mobileCategories.map((cat, i) => renderCategory(cat, i))}
+
                 <div style={{ marginTop: 80 }}>
                     <SectionLabel t={t}>— Soft Skills</SectionLabel>
                     <motion.div initial="hidden" animate={inView ? "visible" : "hidden"} variants={stagger} className="soft-skills-grid">
@@ -758,8 +814,6 @@ function Skills({ t, dark }) {
     );
 }
 
-// ─── PROJECTS (commented out) ─────────────────────────────────────────────────
-/*
 function Projects({ t }) {
     return (
         <section id="projects" className="section-padded">
@@ -777,10 +831,7 @@ function Projects({ t }) {
                             <div style={{ background: t.card, border: `1px solid ${t.border}`, borderRadius: 12, overflow: "hidden", transition: "box-shadow .3s, transform .3s" }}
                                 onMouseEnter={e => { e.currentTarget.style.boxShadow = `0 16px 56px ${t.accent}30`; e.currentTarget.style.transform = "translateY(-6px)"; }}
                                 onMouseLeave={e => { e.currentTarget.style.boxShadow = "none"; e.currentTarget.style.transform = "translateY(0)"; }}>
-                                <div style={{ height: 190, background: `linear-gradient(135deg, hsl(255,44%,88%) 0%, hsl(270,52%,78%) 100%)`, display: "flex", alignItems: "center", justifyContent: "center", position: "relative", overflow: "hidden" }}>
-                                    <img src={p.image} alt={p.title} style={{ width: "100%", height: "100%", objectFit: "cover", position: "absolute", inset: 0 }} onError={e => e.target.style.display = "none"} />
-                                    <div style={{ position: "absolute", top: 14, right: 14, background: t.tagBg, borderRadius: 20, padding: "3px 11px", fontFamily: "'DM Mono', monospace", fontSize: 10, color: t.accent }}>0{p.id}</div>
-                                </div>
+                                <ImageSlider images={p.images} title={p.title} t={t} />
                                 <div style={{ padding: 24, minWidth: 0 }}>
                                     <h3 style={{ fontFamily: "'Syne', sans-serif", fontWeight: 700, fontSize: 18, color: t.ink, marginBottom: 8 }}>{p.title}</h3>
                                     <p style={{ fontFamily: "Georgia, serif", fontSize: 13, color: t.inkSoft, lineHeight: 1.7, marginBottom: 16 }}>{p.desc}</p>
@@ -790,12 +841,16 @@ function Projects({ t }) {
                                         ))}
                                     </div>
                                     <div style={{ display: "flex", gap: 14, alignItems: "center" }}>
-                                        <a href={p.link} target="_blank" rel="noreferrer" style={{ fontFamily: "'DM Mono', monospace", fontSize: 11, color: t.accent, textDecoration: "none", display: "flex", alignItems: "center", gap: 5, borderBottom: `1px solid ${t.accent}55` }}>
-                                            Live Demo <Icon name="ExternalLink" size={10} color={t.accent} />
-                                        </a>
-                                        <a href={p.github} target="_blank" rel="noreferrer" style={{ fontFamily: "'DM Mono', monospace", fontSize: 11, color: t.inkMuted, textDecoration: "none", display: "flex", alignItems: "center", gap: 5 }}>
-                                            <Icon name="Github" size={12} color={t.inkMuted} /> GitHub
-                                        </a>
+                                        {p.link && (
+                                            <a href={p.link} target="_blank" rel="noreferrer" style={{ fontFamily: "'DM Mono', monospace", fontSize: 11, color: t.accent, textDecoration: "none", display: "flex", alignItems: "center", gap: 5, borderBottom: `1px solid ${t.accent}55` }}>
+                                                Live Demo <Icon name="ExternalLink" size={10} color={t.accent} />
+                                            </a>
+                                        )}
+                                        {p.github && (
+                                            <a href={p.github} target="_blank" rel="noreferrer" style={{ fontFamily: "'DM Mono', monospace", fontSize: 11, color: t.inkMuted, textDecoration: "none", display: "flex", alignItems: "center", gap: 5 }}>
+                                                <Icon name="Github" size={12} color={t.inkMuted} /> GitHub
+                                            </a>
+                                        )}
                                     </div>
                                 </div>
                             </div>
@@ -806,9 +861,6 @@ function Projects({ t }) {
         </section>
     );
 }
-*/
-
-// ─── EXPERIENCE ───────────────────────────────────────────────────────────────
 
 function Experience({ t }) {
     const ref = useRef(null);
@@ -868,17 +920,14 @@ function Experience({ t }) {
     );
 }
 
-// ─── CONTACT ──────────────────────────────────────────────────────────────────
-
 function Contact({ t }) {
     const ref = useRef(null);
     const inView = useInView(ref, { once: true, margin: "-80px" });
 
-    // Only professional contact channels
     const contacts = [
         { icon: "Mail", label: "Email", value: "sarahimenemessadh@gmail.com", href: "mailto:sarahimenemessadh@gmail.com" },
         { icon: "Phone", label: "Phone", value: "+213 55 09 43 87", href: "tel:+21355094387" },
-        { icon: "Globe", label: "Upwork", value: "River M.", href: "https://www.upwork.com/freelancers/~017d459f20e3d30e04?mp_source=share" },
+        { icon: "Globe", label: "Upwork", value: "River M.", href: "" },
         { icon: "Github", label: "GitHub", value: "riverimenemessadh", href: "https://github.com/riverimenemessadh" },
     ];
 
@@ -921,8 +970,6 @@ function Contact({ t }) {
         </section>
     );
 }
-
-// ─── APP ──────────────────────────────────────────────────────────────────────
 
 export default function App() {
     const [dark, setDark] = useState(false);
@@ -1043,7 +1090,7 @@ export default function App() {
                     <Hero t={t} />
                     <About t={t} />
                     <Skills t={t} dark={dark} />
-                    {/* <Projects t={t} /> */}
+                    <Projects t={t} />
                     <Experience t={t} />
                     <Contact t={t} />
                 </>

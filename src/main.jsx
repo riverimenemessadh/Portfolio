@@ -1,9 +1,9 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import Zpp from './Zpp.jsx'
+import Epp from './Epp.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <Zpp />
+    <Epp />
   </StrictMode>,
 )
